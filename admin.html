@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Sidebar -->
+    <div class="flex">
+        <div class="w-64 bg-gray-800 text-white min-h-screen">
+            <div class="text-center p-6 font-bold text-xl">Admin Panel</div>
+            <ul class="mt-10">
+                <li><a href="#" class="block py-2 px-4 text-gray-300 hover:bg-gray-700">Dashboard</a></li>
+            </ul>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-1 p-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h1 class="text-2xl font-semibold text-gray-700">Quản lý đơn hàng</h1>
+                <p class="mt-4 text-gray-600">Dưới đây là danh sách các đơn hàng hiện tại. Bạn có thể xem chi tiết hoặc
+                    duyệt đơn hàng.</p>
+
+                <!-- Order Table -->
+                <div class="overflow-x-auto mt-6">
+                    <table class="min-w-full table-auto border-collapse">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600">Mã Đơn Hàng</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600">Khách Hàng</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600">Sản phẩm</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600">Ngày Đặt</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600">Địa chỉ</th>
+                                <th class="py-3 px-4 text-left text-sm font-semibold text-gray-600">Số lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list_orders"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/config.js"></script>
+    <script>
+        let listOrders = document.getElementById('list_orders');
+
+        fetch('/orderlist').then((result) => result.json()).then((data) => {
+            for (var i = 0; i < data.length; i++) {
+                listOrders.innerHTML += `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4 text-sm text-gray-700">${i + 1}</td>
+                    <td class="py-3 px-4 text-sm text-gray-700">${data[i]['fullname']}</td>
+                    <td class="py-3 px-4 text-sm text-gray-700">${data[i]['product']}</td>
+                    <td class="py-3 px-4 text-sm text-gray-700">${data[i]['date']}</td>
+                    <td class="py-3 px-4 text-sm text-gray-700">${data[i]['address']}</td>
+                    <td class="py-3 px-4 text-sm text-gray-700">${data[i]['item_amount']}</td>
+                    </td>
+                </tr>`;
+            }
+        })
+    </script>
+</body>
+
+</html>
